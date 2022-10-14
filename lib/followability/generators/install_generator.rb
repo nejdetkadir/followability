@@ -18,7 +18,7 @@ module Followability
       end
 
       def migration_name
-        'CreateFollowabilityRelationsTable'
+        'CreateFollowabilityRelationships'
       end
 
       def migration_args
