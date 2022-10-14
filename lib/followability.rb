@@ -9,6 +9,7 @@ module Followability
   extend ActiveSupport::Autoload
 
   require_relative 'followability/followable/callbacks'
+  require_relative 'followability/followable/actions/common'
   require_relative 'followability/followable/actions/follow'
   require_relative 'followability/followable/actions/block'
   require_relative 'followability/followable'
