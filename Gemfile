@@ -25,3 +25,12 @@ gem 'dry-configurable', '~> 0.15.0'
 
 # Pry is a runtime developer console and IRB alternative with powerful introspection capabilities [https://github.com/pry/pry]
 gem 'pry', '~> 0.14.1'
+
+# A toolkit of support libraries and Ruby core extensions extracted from the Rails framework [https://github.com/rails/rails]
+gem 'activesupport', '>= 5.0', '>= 7.0.4'
+
+# A toolkit for building modeling frameworks like Active Record [https://github.com/rails/rails]
+gem 'activemodel', '>= 5.0', '>= 7.0.4'
+
+# Databases on Rails. Build a persistent domain model by mapping database tables to Ruby classes [https://github.com/rails/rails]
+gem 'activerecord', '>= 5.0', '>= 7.0.4'
