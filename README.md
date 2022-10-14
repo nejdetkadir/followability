@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/btc_turk.svg)](https://badge.fury.io/rb/btc_turk)
+[![Gem Version](https://badge.fury.io/rb/followability.svg)](https://badge.fury.io/rb/followability)
 ![test](https://github.com/nejdetkadir/followability/actions/workflows/test.yml/badge.svg?branch=main)
 ![rubocop](https://github.com/nejdetkadir/followability/actions/workflows/rubocop.yml/badge.svg?branch=main)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
