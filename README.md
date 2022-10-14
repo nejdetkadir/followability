@@ -1,4 +1,4 @@
-[![Gem Version](https://badge.fury.io/rb/btc_turk.svg)](https://badge.fury.io/rb/btc_turk)
+[![Gem Version](https://badge.fury.io/rb/followability.svg)](https://badge.fury.io/rb/followability)
 ![test](https://github.com/nejdetkadir/followability/actions/workflows/test.yml/badge.svg?branch=main)
 ![rubocop](https://github.com/nejdetkadir/followability/actions/workflows/rubocop.yml/badge.svg?branch=main)
 [![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
@@ -20,8 +20,83 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install followability
 
+Run the generator:
+
+    $ rails g followability:install
+
 ## Usage
-TODO: Write usage instructions here
+Simply drop in `followability` to a model:
+
+```ruby
+class User < ActiveRecord::Base
+  followability
+end
+```
+
+Now, instances of `User` have followability.
+```ruby
+User.followability?
+# => true
+```
+
+### Following actions
+Avaiable methods:
+- decline_follow_request_of
+- remove_follow_request_for
+- send_follow_request_to
+- following?
+- mutual_following_with?
+- sent_follow_request_to?
+- follow_request_sent_by?
+
+### Usage
+```ruby
+@foo = User.first
+@bar = User.last
+
+@foo.send_follow_request_to(@bar)
+# => true
+
+@foo.sent_follow_request_to?(@bar)
+# => true
+
+@bar.follow_request_sent_by(@foo)
+# => true
+
+@bar.decline_follow_request_of(@foo)
+# => true
+
+@foo.remove_follow_request_for(@bar)
+# => false
+
+@foo.mutual_following_with?(@bar)
+# => false
+
+@bar.following?(@foo)
+# => false
+```
+
+### Blocking actions
+Avaiable methods:
+- block_to
+- unblock_to
+- blocked?
+- blocked_by?
+
+### Usage
+```ruby
+@foo.block_to(@bar)
+# => true
+
+@foo.blocked?(@bar)
+# => true
+
+@bar.blocked_by?(@foo)
+# => true
+
+@foo.unblock_to(@bar)
+# => true
+```
 
 ## Development
 
