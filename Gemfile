@@ -34,3 +34,6 @@ gem 'activemodel', '>= 5.0', '>= 7.0.4'
 
 # Databases on Rails. Build a persistent domain model by mapping database tables to Ruby classes [https://github.com/rails/rails]
 gem 'activerecord', '>= 5.0', '>= 7.0.4'
+
+# Ruby on Rails is a full-stack web framework optimized for programmer happiness and sustainable productivity [https://github.com/rails/rails]
+gem 'rails', '>= 5.0', '>= 7.0.4'
