@@ -21,3 +21,6 @@ Metrics/MethodLength:
   Enabled: true
   CountComments: false
   Max: 20
+
+Metrics/AbcSize:
+  Max: 25
