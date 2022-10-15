@@ -25,6 +25,25 @@ module Followability
           end
         end
 
+        def accept_follow_request_of(record)
+          relation = follow_requests.find_by(followerable_id: record.id, followerable_type: record.class.name)
+
+          if relation.blank?
+            errors.add(:base,
+                       I18n.t('accept_follow_request_of.empty_relation', scope: I18N_SCOPE, klass: record.class.name))
+
+            false
+          elsif relation.update(status: Followability::Relationship.statuses[:following])
+            run_callback(self, callback: :on_request_declined)
+
+            true
+          else
+            errors.add(:base, relation.errors.full_messages.to_sentence)
+
+            false
+          end
+        end
+
         def remove_follow_request_for(record)
           relation = pending_requests.find_by(followable_id: record.id, followable_type: record.class.name)
 
@@ -77,7 +96,8 @@ module Followability
                                           status: Followability::Relationship.statuses[:requested])
 
           if relation.save
-            run_callback(record, callback: :on_request_sent)
+            run_callback(self, callback: :follow_request_sent_to_someone)
+            run_callback(record, callback: :follow_request_sent_to_me)
 
             true
           else

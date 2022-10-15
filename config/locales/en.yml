@@ -8,6 +8,8 @@ en:
           already_blocked: '%{klass} already blocked'
           not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
       follow:
+        accept_follow_request_of:
+          empty_relation: 'You can not accept follow request of %{klass} because was not sent'
         remove_follow_request_for:
           empty_relation: 'You can not remove follow request of %{klass} because was not sent'
         send_follow_request_to:
