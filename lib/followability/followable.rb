@@ -11,9 +11,15 @@ module Followability
         def self.followability?
           true
         end
+
+        has_many :followability_relationships,
+                 as: :followerable,
+                 class_name: 'Followability::Relationship',
+                 dependent: :destroy
       end
 
       include Followability::Followable::Callbacks
+      include Followability::Followable::Actions::Common
       include Followability::Followable::Actions::Follow
       include Followability::Followable::Actions::Block
     end

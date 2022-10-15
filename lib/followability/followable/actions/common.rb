@@ -2,10 +2,24 @@
 
 module Followability
   module Followable
-    module Common
-      def related_with?(record); end
+    module Actions
+      module Common
+        def related_with_as_followerable?(record)
+          followability_relationships.exists?(followable: record)
+        end
 
-      def myself?(record); end
+        def related_with_as_followable?(record)
+          followability_relationships.exists?(followerable: record)
+        end
+
+        def related?(record)
+          related_with_as_followerable?(record) || related_with_as_followable?(record)
+        end
+
+        def myself?(record)
+          id == record.id
+        end
+      end
     end
   end
 end

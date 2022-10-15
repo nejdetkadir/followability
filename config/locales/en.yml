@@ -1,0 +1,6 @@
+---
+en:
+  followability:
+    errors:
+      already_blocked: '%{klass} already blocked'
+      not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
