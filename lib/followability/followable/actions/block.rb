@@ -7,6 +7,12 @@ module Followability
         I18N_SCOPE = 'followability.errors.block'
 
         def block_to(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('block_to.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
           if blocked_by?(record)
             errors.add(:base, I18n.t('block_to.blocked_by', scope: I18N_SCOPE, klass: record.class))
 
@@ -23,7 +29,8 @@ module Followability
                                                             status: Followability::Relationship.statuses[:blocked])
 
           if relation.save
-            run_callback(self, callback: :on_followable_blocked)
+            run_callback(self, affected: record, callback: :followable_blocked_by_me)
+            run_callback(record, affected: self, callback: :followable_blocked_by_someone)
 
             true
           else
@@ -34,6 +41,12 @@ module Followability
         end
 
         def unblock_to(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('unblock_to.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
           unless blocked?(record)
             errors.add(:base, I18n.t(:not_blocked_for_blocking, scope: I18N_SCOPE, klass: record.class))
 
@@ -43,7 +56,8 @@ module Followability
           relation = followerable_relationships.blocked.find_by(followable: record)
 
           if relation.destroy
-            run_callback(self, callback: :on_followable_unblocked)
+            run_callback(self, affected: record, callback: :followable_unblocked_by_me)
+            run_callback(record, affected: self, callback: :followable_unblocked_by_someone)
 
             true
           else

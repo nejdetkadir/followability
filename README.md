@@ -65,6 +65,12 @@ Avaiable methods:
 @bar.decline_follow_request_of(@foo)
 # => true
 
+@bar.accept_follow_request_of(@foo)
+# => false
+
+@bar.errors.full_messages
+# => [...]
+
 @foo.remove_follow_request_for(@bar)
 # => false
 
@@ -82,6 +88,7 @@ Avaiable methods:
 
 @foo.errors.full_messages
 # => [...]
+
 ```
 
 ### Blocking actions
@@ -115,7 +122,7 @@ Avaiable methods:
 class User < ActiveRecord::Base
   followability
   
-  def on_request_sent(record)
+  def follow_request_removed_by_someone(record)
     unless myself?(record)
       # Do something
     end
@@ -157,21 +164,72 @@ Avaiable methods:
 # => [#<User ...>]
 ```
 
+### Callback Methods
+Available methods:
+- follow_request_sent_to_me
+- follow_request_sent_to_someone
+- follow_request_accepted_by_me
+- follow_request_accepted_by_someone
+- follow_request_declined_by_me
+- follow_request_declined_by_someone
+- follow_request_removed_by_me
+- follow_request_removed_by_someone
+- followable_blocked_by_me
+- followable_blocked_by_someone
+- followable_unblocked_by_me
+- followable_unblocked_by_someone
+- followability_triggered
+
+### Usage
+```ruby
+class User < ActiveRecord::Base
+  followability
+
+  def follow_request_sent_to_me(record)
+    Notifications::FollowRequestSentToMeJob.perform_later(from_id: record.id)
+  end
+  def follow_request_sent_to_someone(record); end
+  def follow_request_accepted_by_me(record); end
+  def follow_request_accepted_by_someone(record); end
+  def follow_request_declined_by_me(record); end
+  def follow_request_declined_by_someone(record); end
+  def follow_request_removed_by_me(record); end
+  def follow_request_removed_by_someone(record); end
+  def followable_blocked_by_me(record); end
+  def followable_blocked_by_someone(record); end
+  def followable_unblocked_by_me(record); end
+  def followable_unblocked_by_someone(record); end
+  def followability_triggered(record, callback_name); end
+end
+```
+
 ## I18n
 ```yml
+---
 ---
 en:
   followability:
     errors:
       block:
+        unblock_to:
+          myself: 'You can not run this action for yourself'
         block_to:
+          myself: 'You can not run this action for yourself'
           blocked_by: 'You can not block to who blocked to you'
           already_blocked: '%{klass} already blocked'
           not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
       follow:
+        decline_follow_request_of:
+          myself: 'You can not run this action for yourself'
+          empty_relation: 'You can not decline follow request of %{klass} because was not sent'
+        accept_follow_request_of:
+          myself: 'You can not run this action for yourself'
+          empty_relation: 'You can not accept follow request of %{klass} because was not sent'
         remove_follow_request_for:
           empty_relation: 'You can not remove follow request of %{klass} because was not sent'
+          myself: 'You can not run this action for yourself'
         send_follow_request_to:
+          myself: 'You can not run this action for yourself'
           blocked_by: 'You can not send follow request to who blocked to you'
           following: 'You are already following to %{klass}'
           already_sent: 'You are already sent follow request'

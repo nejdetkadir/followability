@@ -3,14 +3,25 @@ en:
   followability:
     errors:
       block:
+        unblock_to:
+          myself: 'You can not run this action for yourself'
         block_to:
+          myself: 'You can not run this action for yourself'
           blocked_by: 'You can not block to who blocked to you'
           already_blocked: '%{klass} already blocked'
           not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
       follow:
+        decline_follow_request_of:
+          myself: 'You can not run this action for yourself'
+          empty_relation: 'You can not decline follow request of %{klass} because was not sent'
+        accept_follow_request_of:
+          myself: 'You can not run this action for yourself'
+          empty_relation: 'You can not accept follow request of %{klass} because was not sent'
         remove_follow_request_for:
           empty_relation: 'You can not remove follow request of %{klass} because was not sent'
+          myself: 'You can not run this action for yourself'
         send_follow_request_to:
+          myself: 'You can not run this action for yourself'
           blocked_by: 'You can not send follow request to who blocked to you'
           following: 'You are already following to %{klass}'
           already_sent: 'You are already sent follow request'
