@@ -10,5 +10,9 @@ module Followability
 
     belongs_to :followerable, polymorphic: true, optional: false
     belongs_to :followable, polymorphic: true, optional: false
+
+    def self.table_name_prefix
+      'followability_'
+    end
   end
 end
