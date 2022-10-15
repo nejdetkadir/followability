@@ -122,7 +122,7 @@ Avaiable methods:
 class User < ActiveRecord::Base
   followability
   
-  def on_request_sent(record)
+  def follow_request_removed_by_someone(record)
     unless myself?(record)
       # Do something
     end
@@ -162,6 +162,44 @@ Avaiable methods:
 
 @foo.blocks
 # => [#<User ...>]
+```
+
+### Callback Methods
+Available methods:
+- follow_request_sent_to_me
+- follow_request_sent_to_someone
+- follow_request_accepted_by_me
+- follow_request_accepted_by_someone
+- follow_request_declined_by_me
+- follow_request_declined_by_someone
+- follow_request_removed_by_me
+- follow_request_removed_by_someone
+- followable_blocked_by_me
+- followable_blocked_by_someone
+- followable_unblocked_by_me
+- followable_unblocked_by_someone
+- followability_triggered
+
+### Usage
+
+```ruby
+class User < ActiveRecord::Base
+  followability
+
+  def follow_request_sent_to_someone(record); end
+  def follow_request_sent_to_me(record); end
+  def follow_request_accepted_by_me(record); end
+  def follow_request_accepted_by_someone(record); end
+  def follow_request_declined_by_me(record); end
+  def follow_request_declined_by_someone(record); end
+  def follow_request_removed_by_me(record); end
+  def follow_request_removed_by_someone(record); end
+  def followable_blocked_by_me(record); end
+  def followable_blocked_by_someone(record); end
+  def followable_unblocked_by_me(record); end
+  def followable_unblocked_by_someone(record); end
+  def followability_triggered(record); end
+end
 ```
 
 ## I18n

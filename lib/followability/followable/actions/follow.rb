@@ -15,7 +15,8 @@ module Followability
 
             false
           elsif relation.destroy
-            run_callback(self, callback: :on_request_declined)
+            run_callback(self, callback: :follow_request_declined_by_me)
+            run_callback(record, callback: :follow_request_declined_by_someone)
 
             true
           else
@@ -34,7 +35,8 @@ module Followability
 
             false
           elsif relation.update(status: Followability::Relationship.statuses[:following])
-            run_callback(self, callback: :on_request_declined)
+            run_callback(record, callback: :follow_request_accepted_by_someone)
+            run_callback(self, callback: :follow_request_accepted_by_me)
 
             true
           else
@@ -53,7 +55,8 @@ module Followability
 
             false
           elsif relation.destroy
-            run_callback(self, callback: :on_request_removed)
+            run_callback(self, callback: :follow_request_removed_by_me)
+            run_callback(record, callback: :follow_request_removed_by_someone)
 
             true
           else

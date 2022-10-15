@@ -23,7 +23,8 @@ module Followability
                                                             status: Followability::Relationship.statuses[:blocked])
 
           if relation.save
-            run_callback(self, callback: :on_followable_blocked)
+            run_callback(self, callback: :followable_blocked_by_me)
+            run_callback(record, callback: :followable_blocked_by_someone)
 
             true
           else
@@ -43,7 +44,8 @@ module Followability
           relation = followerable_relationships.blocked.find_by(followable: record)
 
           if relation.destroy
-            run_callback(self, callback: :on_followable_unblocked)
+            run_callback(self, callback: :followable_unblocked_by_me)
+            run_callback(record, callback: :followable_unblocked_by_someone)
 
             true
           else
