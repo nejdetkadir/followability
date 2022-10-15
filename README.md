@@ -181,13 +181,14 @@ Available methods:
 - followability_triggered
 
 ### Usage
-
 ```ruby
 class User < ActiveRecord::Base
   followability
 
+  def follow_request_sent_to_me(record)
+    Notifications::FollowRequestSentToMeJob.perform_later(from_id: record.id)
+  end
   def follow_request_sent_to_someone(record); end
-  def follow_request_sent_to_me(record); end
   def follow_request_accepted_by_me(record); end
   def follow_request_accepted_by_someone(record); end
   def follow_request_declined_by_me(record); end
@@ -198,7 +199,7 @@ class User < ActiveRecord::Base
   def followable_blocked_by_someone(record); end
   def followable_unblocked_by_me(record); end
   def followable_unblocked_by_someone(record); end
-  def followability_triggered(record); end
+  def followability_triggered(record, callback_name); end
 end
 ```
 
