@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ModuleLength
 module Followability
   module Followable
     module Actions
@@ -7,6 +8,12 @@ module Followability
         I18N_SCOPE = 'followability.errors.follow'
 
         def decline_follow_request_of(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('decline_follow_request_of.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
           relation = follow_requests.find_by(followerable_id: record.id, followerable_type: record.class.name)
 
           if relation.blank?
@@ -27,6 +34,12 @@ module Followability
         end
 
         def accept_follow_request_of(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('accept_follow_request_of.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
           relation = follow_requests.find_by(followerable_id: record.id, followerable_type: record.class.name)
 
           if relation.blank?
@@ -47,6 +60,12 @@ module Followability
         end
 
         def remove_follow_request_for(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('remove_follow_request_for.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
           relation = pending_requests.find_by(followable_id: record.id, followable_type: record.class.name)
 
           if relation.blank?
@@ -66,8 +85,14 @@ module Followability
           end
         end
 
-        # rubocop:disable Metrics/AbcSize
+        # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
         def send_follow_request_to(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('send_follow_request_to.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
           if blocked_by?(record)
             errors.add(:base, I18n.t('send_follow_request_to.blocked_by', scope: I18N_SCOPE, klass: record.class.name))
 
@@ -109,7 +134,7 @@ module Followability
             false
           end
         end
-        # rubocop:enable Metrics/AbcSize
+        # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
         def following?(record)
           following.exists?(id: record.id)
@@ -126,3 +151,4 @@ module Followability
     end
   end
 end
+# rubocop:enable Metrics/ModuleLength
