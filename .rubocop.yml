@@ -20,7 +20,10 @@ Style/Documentation:
 Metrics/MethodLength:
   Enabled: true
   CountComments: false
-  Max: 20
+  Max: 30
 
 Metrics/AbcSize:
-  Max: 25
+  Max: 30
+
+Metrics/BlockLength:
+  Max: 30

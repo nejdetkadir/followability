@@ -4,17 +4,23 @@ module Followability
   module Followable
     module Actions
       module Block
-        I18N_SCOPE = 'followability.errors'
+        I18N_SCOPE = 'followability.errors.block'
 
         def block_to(record)
-          if blocked?(record)
-            errors.add(:base, I18n.t(:already_blocked, scope: I18N_SCOPE, klass: record.class))
+          if blocked_by?(record)
+            errors.add(:base, I18n.t('block_to.blocked_by', scope: I18N_SCOPE, klass: record.class))
 
             return false
           end
 
-          relation = followability_relationships.blocked.new(followable: record,
-                                                             status: Followability::Relationship.statuses[:blocked])
+          if blocked?(record)
+            errors.add(:base, I18n.t('block.already_blocked', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
+          relation = followerable_relationships.blocked.new(followable: record,
+                                                            status: Followability::Relationship.statuses[:blocked])
 
           if relation.save
             run_callback(self, callback: :on_followable_blocked)
@@ -34,7 +40,7 @@ module Followability
             return false
           end
 
-          relation = followability_relationships.blocked.find_by(followable: record)
+          relation = followerable_relationships.blocked.find_by(followable: record)
 
           if relation.destroy
             run_callback(self, callback: :on_followable_unblocked)
@@ -48,11 +54,11 @@ module Followability
         end
 
         def blocked?(record)
-          followability_relationships.blocked.exists?(followable: record)
+          followerable_relationships.blocked.exists?(followable: record)
         end
 
         def blocked_by?(record)
-          record.followability_relationships.blocked.exists?(followable: self)
+          record.followerable_relationships.blocked.exists?(followable: self)
         end
       end
     end

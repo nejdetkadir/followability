@@ -5,11 +5,11 @@ module Followability
     module Actions
       module Common
         def related_with_as_followerable?(record)
-          followability_relationships.exists?(followable: record)
+          followerable_relationships.exists?(followable: record)
         end
 
         def related_with_as_followable?(record)
-          followability_relationships.exists?(followerable: record)
+          followable_relationships.exists?(followerable: record)
         end
 
         def related?(record)

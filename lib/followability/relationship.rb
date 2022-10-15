@@ -2,7 +2,7 @@
 
 module Followability
   class Relationship < ActiveRecord::Base
-    STATUSES = %i[requested declined removed blocked following].freeze
+    STATUSES = %i[requested blocked following].freeze
 
     enum status: STATUSES
 

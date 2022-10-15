@@ -2,5 +2,16 @@
 en:
   followability:
     errors:
-      already_blocked: '%{klass} already blocked'
-      not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
+      block:
+        block_to:
+          blocked_by: 'You can not block to who blocked to you'
+          already_blocked: '%{klass} already blocked'
+          not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
+      follow:
+        remove_follow_request_for:
+          empty_relation: 'You can not remove follow request of %{klass} because was not sent'
+        send_follow_request_to:
+          blocked_by: 'You can not send follow request to who blocked to you'
+          following: 'You are already following to %{klass}'
+          already_sent: 'You are already sent follow request'
+          blocked: 'You can not send follow request to blocked %{klass}'
