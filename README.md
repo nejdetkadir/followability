@@ -13,16 +13,19 @@ gem 'followability', github: 'nejdetkadir/followability', branch: 'main'
 ```
 
 Install the gem and add to the application's Gemfile by executing:
-
-    $ bundle add followability
+```bash
+$ bundle add followability
+```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
+```bash
+$ gem install followability
+```
 
-    $ gem install followability
-
-Run the generator:
-
-    $ rails g followability:install
+Run the generator for creating database migration and copying localization files.
+```bash
+$ rails g followability:install
+```
 
 ## Usage
 Simply drop in `followability` to a model:
@@ -47,7 +50,6 @@ Avaiable methods:
 - following?
 - mutual_following_with?
 - sent_follow_request_to?
-- follow_request_sent_by?
 
 ### Usage
 ```ruby
@@ -60,20 +62,26 @@ Avaiable methods:
 @foo.sent_follow_request_to?(@bar)
 # => true
 
-@bar.follow_request_sent_by(@foo)
-# => true
-
 @bar.decline_follow_request_of(@foo)
 # => true
 
 @foo.remove_follow_request_for(@bar)
 # => false
 
+@foo.errors.full_messages
+# => [...]
+
 @foo.mutual_following_with?(@bar)
 # => false
 
+@foo.errors.full_messages
+# => [...]
+
 @bar.following?(@foo)
 # => false
+
+@foo.errors.full_messages
+# => [...]
 ```
 
 ### Blocking actions
@@ -96,6 +104,78 @@ Avaiable methods:
 
 @foo.unblock_to(@bar)
 # => true
+```
+
+### Common
+Avaiable methods:
+- myself?
+
+### Usage
+```ruby
+class User < ActiveRecord::Base
+  followability
+  
+  def on_request_sent(record)
+    unless myself?(record)
+      # Do something
+    end
+  end
+end
+```
+
+### Relations
+Avaiable methods:
+- follow_requests
+- pending_requests
+- followerable_relationships
+- followable_relationships
+- followers
+- following
+- blocks
+
+### Usage
+```ruby
+@foo.follow_requests
+# => [#<Followability::Relationship ...>]
+
+@foo.pending_requests
+# => [#<Followability::Relationship ...>]
+
+@foo.followerable_relationships
+# => [#<Followability::Relationship ...>]
+
+@foo.followable_relationships
+# => [#<Followability::Relationship ...>]
+
+@foo.followers
+# => [#<User ...>]
+
+@foo.following
+# => [#<User ...>]
+
+@foo.blocks
+# => [#<User ...>]
+```
+
+## I18n
+```yml
+---
+en:
+  followability:
+    errors:
+      block:
+        block_to:
+          blocked_by: 'You can not block to who blocked to you'
+          already_blocked: '%{klass} already blocked'
+          not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
+      follow:
+        remove_follow_request_for:
+          empty_relation: 'You can not remove follow request of %{klass} because was not sent'
+        send_follow_request_to:
+          blocked_by: 'You can not send follow request to who blocked to you'
+          following: 'You are already following to %{klass}'
+          already_sent: 'You are already sent follow request'
+          blocked: 'You can not send follow request to blocked %{klass}'
 ```
 
 ## Development
