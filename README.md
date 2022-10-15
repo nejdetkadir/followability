@@ -65,6 +65,12 @@ Avaiable methods:
 @bar.decline_follow_request_of(@foo)
 # => true
 
+@bar.accept_follow_request_of(@foo)
+# => false
+
+@bar.errors.full_messages
+# => [...]
+
 @foo.remove_follow_request_for(@bar)
 # => false
 
@@ -82,6 +88,7 @@ Avaiable methods:
 
 @foo.errors.full_messages
 # => [...]
+
 ```
 
 ### Blocking actions
