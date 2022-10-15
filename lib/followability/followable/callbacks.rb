@@ -3,7 +3,7 @@
 module Followability
   module Followable
     module Callbacks
-      METHOD_NAMES = %w[
+      METHOD_NAMES = %i[
         follow_request_sent_to_someone
         follow_request_sent_to_me
         follow_request_accepted_by_me
@@ -19,13 +19,11 @@ module Followability
         followability_triggered
       ].freeze
 
-      def run_callback(record, callback:)
-        if METHOD_NAMES.exclude?(callback.to_s) || callback.eql?(:followability_triggered) || !callback.is_a?(Symbol)
-          raise ArgumentError
-        end
+      def run_callback(record, callback:, affected:)
+        raise ArgumentError if METHOD_NAMES.exclude?(callback) || callback.eql?(:followability_triggered)
 
-        [callback, :on_relation_changed].each do |cb_name|
-          record.send(cb_name, record, cb_name) if record.respond_to?(cb_name)
+        [callback, :followability_triggered].each do |cb_name|
+          record.send(cb_name, affected, cb_name) if record.respond_to?(cb_name)
         end
       end
     end
