@@ -3,9 +3,9 @@ en:
   followability:
     errors:
       block:
-        unblock_to:
+        unblock:
           myself: 'You can not run this action for yourself'
-        block_to:
+        block:
           myself: 'You can not run this action for yourself'
           blocked_by: 'You can not block to who blocked to you'
           already_blocked: '%{klass} already blocked'
