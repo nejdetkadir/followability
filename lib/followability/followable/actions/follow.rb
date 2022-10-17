@@ -43,7 +43,7 @@ module Followability
           unless following?(record)
             errors.add(:base, I18n.t('unfollow.not_following', scope: I18N_SCOPE, klass: record.class))
 
-            return false 
+            return false
           end
 
           relation = followerable_relationships.find_by(followable_id: record.id,
