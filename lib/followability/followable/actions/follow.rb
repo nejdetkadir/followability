@@ -33,6 +33,35 @@ module Followability
           end
         end
 
+        def unfollow(record)
+          if myself?(record)
+            errors.add(:base, I18n.t('unfollow.myself', scope: I18N_SCOPE, klass: record.class))
+
+            return false
+          end
+
+          unless following?(record)
+            errors.add(:base, I18n.t('unfollow.not_following', scope: I18N_SCOPE, klass: record.class))
+
+            return false 
+          end
+
+          relation = followerable_relationships.find_by(followable_id: record.id,
+                                                        followable_type: record.class.name,
+                                                        status: Followable::Relationship.statuses[:following])
+
+          if relation.destroy
+            run_callback(self, affected: record, callback: :unfollow_by_me)
+            run_callback(record, affected: self, callback: :unfollow_by_someone)
+
+            true
+          else
+            errors.add(:base, relation.errors.full_messages)
+
+            false
+          end
+        end
+
         def accept_follow_request_of(record)
           if myself?(record)
             errors.add(:base, I18n.t('accept_follow_request_of.myself', scope: I18N_SCOPE, klass: record.class))
