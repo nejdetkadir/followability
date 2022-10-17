@@ -6,15 +6,15 @@ module Followability
       module Block
         I18N_SCOPE = 'followability.errors.block'
 
-        def block_to(record)
+        def block(record)
           if myself?(record)
-            errors.add(:base, I18n.t('block_to.myself', scope: I18N_SCOPE, klass: record.class))
+            errors.add(:base, I18n.t('block.myself', scope: I18N_SCOPE, klass: record.class))
 
             return false
           end
 
           if blocked_by?(record)
-            errors.add(:base, I18n.t('block_to.blocked_by', scope: I18N_SCOPE, klass: record.class))
+            errors.add(:base, I18n.t('block.blocked_by', scope: I18N_SCOPE, klass: record.class))
 
             return false
           end
@@ -40,9 +40,9 @@ module Followability
           end
         end
 
-        def unblock_to(record)
+        def unblock(record)
           if myself?(record)
-            errors.add(:base, I18n.t('unblock_to.myself', scope: I18N_SCOPE, klass: record.class))
+            errors.add(:base, I18n.t('unblock.myself', scope: I18N_SCOPE, klass: record.class))
 
             return false
           end

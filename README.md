@@ -87,14 +87,14 @@ Avaiable methods:
 
 ### Blocking actions
 Avaiable methods:
-- block_to
-- unblock_to
+- block
+- unblock
 - blocked?
 - blocked_by?
 
 ### Usage
 ```ruby
-@foo.block_to(@bar)
+@foo.block(@bar)
 # => true
 
 @foo.blocked?(@bar)
@@ -103,7 +103,7 @@ Avaiable methods:
 @bar.blocked_by?(@foo)
 # => true
 
-@foo.unblock_to(@bar)
+@foo.unblock(@bar)
 # => true
 ```
 
@@ -213,9 +213,9 @@ en:
   followability:
     errors:
       block:
-        unblock_to:
+        unblock:
           myself: 'You can not run this action for yourself'
-        block_to:
+        block:
           myself: 'You can not run this action for yourself'
           blocked_by: 'You can not block to who blocked to you'
           already_blocked: '%{klass} already blocked'
