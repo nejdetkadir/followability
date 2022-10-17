@@ -247,6 +247,11 @@ en:
           blocked: 'You can not send follow request to blocked %{klass}'
 ```
 
+## Mentioned Youtube Video
+![Friend Request And Followers - Followability Gem | Ruby On Rails 7 Tutorial](docs/youtube-video.jpeg)
+
+You can watch [@Deanout](https://github.com/Deanout)'s [Friend Request And Followers - Followability Gem | Ruby On Rails 7 Tutorial Video](https://www.youtube.com/watch?v=UVa1QPaITQM) on Youtube.
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
