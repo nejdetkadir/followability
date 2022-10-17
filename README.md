@@ -72,6 +72,12 @@ Avaiable methods:
 @bar.errors.full_messages
 # => [...]
 
+@bar.unfollow(@foo)
+# => false
+
+@bar.errors.full_messages
+# => [...]
+
 @foo.remove_follow_request_for(@bar)
 # => false
 
@@ -199,7 +205,7 @@ class User < ActiveRecord::Base
   def unfollow_by_me(record); end
 
   def unfollow_by_someone(record)
-    Followability::RemoveFollowedUser(user_id: record.id)
+    Followability::RemoveFollowedUserJob.perform_later(user_id: record.id)
   end
 
   def followability_triggered(record, callback_name); end
