@@ -47,6 +47,7 @@ Avaiable methods:
 - decline_follow_request_of
 - remove_follow_request_for
 - send_follow_request_to
+- unfollow
 - following?
 - mutual_following_with?
 - sent_follow_request_to?
@@ -80,15 +81,8 @@ Avaiable methods:
 @foo.mutual_following_with?(@bar)
 # => false
 
-@foo.errors.full_messages
-# => [...]
-
 @bar.following?(@foo)
 # => false
-
-@foo.errors.full_messages
-# => [...]
-
 ```
 
 ### Blocking actions
@@ -178,6 +172,8 @@ Available methods:
 - followable_blocked_by_someone
 - followable_unblocked_by_me
 - followable_unblocked_by_someone
+- unfollow_by_me
+- unfollow_by_someone
 - followability_triggered
 
 ### Usage
@@ -188,6 +184,7 @@ class User < ActiveRecord::Base
   def follow_request_sent_to_me(record)
     Notifications::FollowRequestSentToMeJob.perform_later(from_id: record.id)
   end
+
   def follow_request_sent_to_someone(record); end
   def follow_request_accepted_by_me(record); end
   def follow_request_accepted_by_someone(record); end
@@ -199,13 +196,18 @@ class User < ActiveRecord::Base
   def followable_blocked_by_someone(record); end
   def followable_unblocked_by_me(record); end
   def followable_unblocked_by_someone(record); end
+  def unfollow_by_me(record); end
+
+  def unfollow_by_someone(record)
+    Followability::RemoveFollowedUser(user_id: record.id)
+  end
+
   def followability_triggered(record, callback_name); end
 end
 ```
 
 ## I18n
 ```yml
----
 ---
 en:
   followability:
@@ -219,6 +221,9 @@ en:
           already_blocked: '%{klass} already blocked'
           not_blocked_for_blocking: 'You can not unblock to %{klass} because was not blocked'
       follow:
+        unfollow:
+          myself: 'You can not run this action for yourself'
+          empty_relation: 'You can not unfollow to %{klass} because was not followed'
         decline_follow_request_of:
           myself: 'You can not run this action for yourself'
           empty_relation: 'You can not decline follow request of %{klass} because was not sent'

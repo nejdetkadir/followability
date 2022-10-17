@@ -16,6 +16,8 @@ module Followability
         followable_blocked_by_someone
         followable_unblocked_by_me
         followable_unblocked_by_someone
+        unfollow_by_me
+        unfollow_by_someone
         followability_triggered
       ].freeze
 
