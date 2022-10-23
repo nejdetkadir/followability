@@ -139,6 +139,7 @@ Avaiable methods:
 - followers
 - following
 - blocks
+- blockers
 
 ### Usage
 ```ruby
@@ -161,6 +162,9 @@ Avaiable methods:
 # => [#<User ...>]
 
 @foo.blocks
+# => [#<User ...>]
+
+@foo.blockers
 # => [#<User ...>]
 ```
 
