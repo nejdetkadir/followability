@@ -6,7 +6,7 @@ module Followability
       false
     end
 
-    # rubocop:disable Metrics/MethodLength
+    # rubocop:disable Metrics/MethodLength, Metrics/BlockLength
     def followability
       class_eval do
         def self.followability?
@@ -58,6 +58,6 @@ module Followability
       include Followability::Followable::Actions::Follow
       include Followability::Followable::Actions::Block
     end
-    # rubocop:enable Metrics/MethodLength
+    # rubocop:enable Metrics/MethodLength, Metrics/BlockLength
   end
 end
