@@ -178,8 +178,8 @@ Available methods:
 - followable_blocked_by_someone
 - followable_unblocked_by_me
 - followable_unblocked_by_someone
-- unfollow_by_me
-- unfollow_by_someone
+- unfollowed_by_me
+- unfollowed_by_someone
 - followability_triggered
 
 ### Usage
@@ -202,9 +202,9 @@ class User < ActiveRecord::Base
   def followable_blocked_by_someone(record); end
   def followable_unblocked_by_me(record); end
   def followable_unblocked_by_someone(record); end
-  def unfollow_by_me(record); end
+  def unfollowed_by_me(record); end
 
-  def unfollow_by_someone(record)
+  def unfollowed_by_someone(record)
     Followability::RemoveFollowedUserJob.perform_later(user_id: record.id)
   end
 

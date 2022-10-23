@@ -51,8 +51,8 @@ module Followability
                                                         status: Followable::Relationship.statuses[:following])
 
           if relation.destroy
-            run_callback(self, affected: record, callback: :unfollow_by_me)
-            run_callback(record, affected: self, callback: :unfollow_by_someone)
+            run_callback(self, affected: record, callback: :unfollowed_by_me)
+            run_callback(record, affected: self, callback: :unfollowed_by_someone)
 
             true
           else
