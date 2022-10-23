@@ -43,6 +43,13 @@ module Followability
                  source: :followable,
                  class_name: name,
                  source_type: name
+
+        has_many :blockers,
+                 -> { Followability::Relationship.blocked },
+                 through: :followable_relationships,
+                 source: :followerable,
+                 class_name: name,
+                 source_type: name
       end
 
       include Followability::Followable::Associations
