@@ -48,7 +48,7 @@ module Followability
 
           relation = followerable_relationships.find_by(followable_id: record.id,
                                                         followable_type: record.class.name,
-                                                        status: Followable::Relationship.statuses[:following])
+                                                        status: Followability::Relationship.statuses[:following])
 
           if relation.destroy
             run_callback(self, affected: record, callback: :unfollowed_by_me)
