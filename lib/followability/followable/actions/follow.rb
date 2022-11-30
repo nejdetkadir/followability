@@ -77,8 +77,8 @@ module Followability
 
             false
           elsif relation.update(status: Followability::Relationship.statuses[:following])
-            run_callback(record, affected: record, callback: :follow_request_accepted_by_someone)
-            run_callback(self, affected: self, callback: :follow_request_accepted_by_me)
+            run_callback(record, affected: self, callback: :follow_request_accepted_by_someone)
+            run_callback(self, affected: record, callback: :follow_request_accepted_by_me)
 
             true
           else
