@@ -4,7 +4,7 @@ module Followability
   class Relationship < ActiveRecord::Base
     STATUSES = %i[requested blocked following].freeze
 
-    enum status: STATUSES
+    enum :status, STATUSES
 
     validates :status, presence: true
 
